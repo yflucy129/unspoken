@@ -36,7 +36,6 @@ body::before {
   mix-blend-mode: multiply;
 }
 
-/* === SECTION SHELL === */
 section {
   min-height: 100vh;
   padding: 18vh 6vw;
@@ -56,10 +55,8 @@ section.dark .marker { color: #6a5a4a; }
 section.dark .marker-label { color: #9a5040; }
 section.dark .prose { color: #c8b8a0; }
 section.dark .prose em { color: #d4a890; }
-section.dark .micro-cite { color: #6a5a4a; }
-section.dark .micro-cite em { color: #b8856a; }
+section.dark sup.fn-ref a { color: #d4856a; }
 
-/* === OPENING === */
 #opening {
   grid-template-columns: 1fr;
   text-align: left;
@@ -67,9 +64,7 @@ section.dark .micro-cite em { color: #b8856a; }
   min-height: 100vh;
 }
 
-.title-block {
-  max-width: 700px;
-}
+.title-block { max-width: 700px; }
 
 .eyebrow {
   font-family: 'DM Mono', monospace;
@@ -115,7 +110,6 @@ h1 em {
   line-height: 2;
 }
 
-/* === STAGE: where the form lives === */
 .stage {
   position: relative;
   width: 100%;
@@ -130,10 +124,7 @@ h1 em {
   overflow: visible;
 }
 
-/* === PROSE COLUMN === */
-.prose-col {
-  max-width: 480px;
-}
+.prose-col { max-width: 480px; }
 
 .marker {
   font-family: 'DM Mono', monospace;
@@ -158,40 +149,71 @@ h1 em {
   color: #3a342c;
 }
 
-.prose p {
-  margin-bottom: 1.4em;
-}
+.prose p { margin-bottom: 1.4em; }
+.prose em { font-style: italic; color: var(--ink); }
+.prose .emph { font-style: italic; color: var(--accent); }
 
-.prose em {
-  font-style: italic;
-  color: var(--ink);
+/* Footnote references */
+sup.fn-ref {
+  font-size: 0.65em;
+  vertical-align: super;
+  line-height: 0;
+  margin-left: 1px;
 }
-
-.prose .emph {
-  font-style: italic;
+sup.fn-ref a {
   color: var(--accent);
+  text-decoration: none;
+  font-family: 'DM Mono', monospace;
+  font-weight: 400;
+  padding: 0 1px;
+}
+sup.fn-ref a:hover {
+  text-decoration: underline;
 }
 
-.micro-cite {
-  font-family: 'DM Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.15em;
-  color: var(--muted);
+/* Per-section footnote block */
+.section-footnotes {
   margin-top: 48px;
-  line-height: 1.9;
   border-top: 1px solid var(--rule);
   padding-top: 16px;
+  font-family: 'EB Garamond', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--muted);
 }
 
-.micro-cite em {
-  font-family: 'EB Garamond', serif;
+section.dark .section-footnotes { color: #8a7a60; border-top-color: #3a2e22; }
+section.dark .section-footnotes em { color: #c8b8a0; }
+
+.section-footnotes ol {
+  list-style: none;
+  counter-reset: fn-counter;
+}
+
+.section-footnotes li {
+  counter-increment: fn-counter;
+  padding-left: 24px;
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.section-footnotes li::before {
+  content: counter(fn-counter);
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--accent);
+  font-weight: 400;
+}
+
+.section-footnotes em {
   font-style: italic;
-  font-size: 11px;
-  letter-spacing: 0;
   color: var(--ink);
 }
 
-/* === TEXT-AS-FORM STYLES === */
+/* text-as-form */
 .tf  { font-family: 'EB Garamond', serif; font-size: 9px;  fill: var(--ink); }
 .tfl { font-family: 'EB Garamond', serif; font-size: 8.5px; fill: var(--muted); }
 .tfa { font-family: 'EB Garamond', serif; font-size: 10px; fill: var(--accent); font-style: italic; }
@@ -202,11 +224,7 @@ section.dark .tfl { fill: #8a7a60; }
 section.dark .tfa { fill: #d4856a; }
 section.dark .tfd { fill: #5a4e3e; }
 
-/* === ANIMATED HOOKS === */
-.tremble {
-  animation: tremble 4s ease-in-out infinite;
-  transform-origin: center;
-}
+.tremble { animation: tremble 4s ease-in-out infinite; transform-origin: center; }
 @keyframes tremble {
   0%, 100% { transform: translate(0, 0) rotate(0deg); }
   25% { transform: translate(0.4px, -0.3px) rotate(0.15deg); }
@@ -214,25 +232,66 @@ section.dark .tfd { fill: #5a4e3e; }
   75% { transform: translate(0.5px, 0.2px) rotate(0.08deg); }
 }
 
-.breathe {
-  animation: breathe 8s ease-in-out infinite;
-  transform-origin: center;
-}
+.breathe { animation: breathe 8s ease-in-out infinite; transform-origin: center; }
 @keyframes breathe {
   0%, 100% { transform: scale(1); opacity: 1; }
   50% { transform: scale(1.015); opacity: 0.92; }
 }
 
-.drift {
-  animation: drift 14s ease-in-out infinite;
-}
+.drift { animation: drift 14s ease-in-out infinite; }
 @keyframes drift {
   0%, 100% { transform: translate(0, 0); }
   33% { transform: translate(1px, -0.8px); }
   66% { transform: translate(-0.8px, 1px); }
 }
 
-/* === CLOSING === */
+/* === BIBLIOGRAPHY === */
+#bibliography {
+  grid-template-columns: 1fr;
+  padding: 16vh 10vw;
+  min-height: auto;
+}
+
+.biblio-header {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.4em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.biblio-title {
+  font-family: 'EB Garamond', serif;
+  font-size: clamp(32px, 4vw, 48px);
+  font-style: italic;
+  color: var(--ink);
+  margin-bottom: 56px;
+  letter-spacing: -0.01em;
+}
+
+.biblio-list {
+  max-width: 760px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.biblio-entry {
+  font-family: 'EB Garamond', serif;
+  font-size: clamp(13px, 1vw, 15px);
+  line-height: 1.7;
+  color: #3a342c;
+  text-indent: -2em;
+  padding-left: 2em;
+}
+
+.biblio-entry em {
+  font-style: italic;
+  color: var(--ink);
+}
+
+/* CLOSING */
 #closing {
   grid-template-columns: 1fr;
   text-align: left;
@@ -274,12 +333,10 @@ section.dark .tfd { fill: #5a4e3e; }
   text-transform: none;
 }
 
-/* === SCATTER INTERACTION === */
 #scatter-stage text {
   transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* === SCROLL-DRIVEN (modern browsers) === */
 @supports (animation-timeline: scroll()) {
   .scroll-fade {
     animation: scroll-fade-in linear both;
@@ -292,14 +349,13 @@ section.dark .tfd { fill: #5a4e3e; }
   }
 }
 
-/* Mobile */
 @media (max-width: 800px) {
   section {
     grid-template-columns: 1fr;
     padding: 12vh 6vw;
     gap: 6vh;
   }
-  #opening, #closing { padding: 18vh 6vw; }
+  #opening, #closing, #bibliography { padding: 18vh 6vw; }
   .stage { max-width: 90vw; }
 }
 </style>
@@ -344,36 +400,16 @@ section.dark .tfd { fill: #5a4e3e; }
         <path id="c-r10" d="M250,250 m-32,0 a32,32 0 1,1 64,0 a64,32 0 1,1 -64,0"/>
       </defs>
       <g class="breathe">
-        <text class="tfd">
-          <textPath href="#c-r1" startOffset="0">closed and returning — closed and returning — closed and returning — the first thing the hand knows how to do — closed and returning — the first thing the hand knows — closed —</textPath>
-        </text>
-        <text class="tfl">
-          <textPath href="#c-r2" startOffset="5%">before a child has a word for what happened, they draw a circle — before a child has a word — they draw a circle — before language arrives, the hand already knows — before a word —</textPath>
-        </text>
-        <text class="tf">
-          <textPath href="#c-r3" startOffset="12%">not because someone taught them — the circle is what the hand does on its own — the head, the sun, the self — not because someone taught them —</textPath>
-        </text>
-        <text class="tfl">
-          <textPath href="#c-r4" startOffset="20%">the therapist does not ask what it means — she watches how hard the pencil pressed — whether the line trembled — whether it closed all the way — or left a door —</textPath>
-        </text>
-        <text class="tfa">
-          <textPath href="#c-r5" startOffset="30%">how do you make form for something that arrived before language did — how do you make form — how do you make form —</textPath>
-        </text>
-        <text class="tf">
-          <textPath href="#c-r6" startOffset="42%">density, pressure, the weight of the mark, the shape of the silence inside the shape — density, pressure, the weight of the mark — density, pressure —</textPath>
-        </text>
-        <text class="tfl">
-          <textPath href="#c-r7" startOffset="55%">not the sad figure in the rain — not the dark sky — not the crying child — not the obvious — something quieter — something subtler — something underneath —</textPath>
-        </text>
-        <text class="tfa">
-          <textPath href="#c-r8" startOffset="68%">the brief no one writes down — the brief no one writes down — the brief no one writes down — the brief —</textPath>
-        </text>
-        <text class="tfd">
-          <textPath href="#c-r9" startOffset="80%">close — return — close — return — close — return — close — return — close —</textPath>
-        </text>
-        <text class="tf" style="font-size:7px;">
-          <textPath href="#c-r10" startOffset="90%">begin — begin — begin — begin — begin —</textPath>
-        </text>
+        <text class="tfd"><textPath href="#c-r1" startOffset="0">closed and returning — closed and returning — closed and returning — the first thing the hand knows how to do — closed and returning — the first thing the hand knows — closed —</textPath></text>
+        <text class="tfl"><textPath href="#c-r2" startOffset="5%">before a child has a word for what happened, they draw a circle — before a child has a word — they draw a circle — before language arrives, the hand already knows — before a word —</textPath></text>
+        <text class="tf"><textPath href="#c-r3" startOffset="12%">not because someone taught them — the circle is what the hand does on its own — the head, the sun, the self — not because someone taught them —</textPath></text>
+        <text class="tfl"><textPath href="#c-r4" startOffset="20%">the therapist does not ask what it means — she watches how hard the pencil pressed — whether the line trembled — whether it closed all the way — or left a door —</textPath></text>
+        <text class="tfa"><textPath href="#c-r5" startOffset="30%">how do you make form for something that arrived before language did — how do you make form — how do you make form —</textPath></text>
+        <text class="tf"><textPath href="#c-r6" startOffset="42%">density, pressure, the weight of the mark, the shape of the silence inside the shape — density, pressure, the weight of the mark — density, pressure —</textPath></text>
+        <text class="tfl"><textPath href="#c-r7" startOffset="55%">not the sad figure in the rain — not the dark sky — not the crying child — not the obvious — something quieter — something subtler — something underneath —</textPath></text>
+        <text class="tfa"><textPath href="#c-r8" startOffset="68%">the brief no one writes down — the brief no one writes down — the brief no one writes down — the brief —</textPath></text>
+        <text class="tfd"><textPath href="#c-r9" startOffset="80%">close — return — close — return — close — return — close — return — close —</textPath></text>
+        <text class="tf" style="font-size:7px;"><textPath href="#c-r10" startOffset="90%">begin — begin — begin — begin — begin —</textPath></text>
       </g>
       <circle cx="250" cy="250" r="10" fill="none" stroke="#b8a888" stroke-width="0.5"/>
     </svg>
@@ -384,14 +420,16 @@ section.dark .tfd { fill: #5a4e3e; }
     <div class="marker-label">The Circle — the first form</div>
     <div class="prose">
       <p>Before a child has a word for what happened, they draw a circle.</p>
-      <p>Not because someone taught them. The circle is the first thing the hand knows how to do — <em>close, and return.</em> The head. The sun. The self.</p>
-      <p>The therapist sitting across the table does not ask what it means. She watches instead how hard the pencil pressed into the paper. Whether the line trembled. Whether it closed all the way, or left a small opening at the bottom — a door the child did not know they were drawing.</p>
-      <p class="emph">This is the brief no one writes down: how do you make form for something that arrived before language did?</p>
+      <p>Not because someone taught them. The circle is the first thing the hand knows how to do — <em>close, and return.</em> The head. The sun. The self.<sup class="fn-ref"><a href="#fn1-1" id="fnref1-1">1</a></sup></p>
+      <p>The therapist sitting across the table does not ask what it means. She watches instead how hard the pencil pressed into the paper. Whether the line trembled. Whether it closed all the way, or left a small opening at the bottom — a door the child did not know they were drawing.<sup class="fn-ref"><a href="#fn1-2" id="fnref1-2">2</a></sup></p>
+      <p class="emph">This is the brief no one writes down: how do you make form for something that arrived before language did?<sup class="fn-ref"><a href="#fn1-3" id="fnref1-3">3</a></sup></p>
     </div>
-    <div class="micro-cite">
-      <em>Malchiodi, Understanding Children's Drawings</em>, 1998<br>
-      <em>Mitchell, What Do Pictures Want?</em>, 2005<br>
-      <em>Terr, Too Scared to Cry</em>, 1990
+    <div class="section-footnotes">
+      <ol>
+        <li id="fn1-1">Cathy A. Malchiodi notes that early circular forms typically emerge between ages two and three, often before recognizable figurative representation, and that clinicians treat these primary forms as developmental signposts rather than symbolic content. Malchiodi, <em>Understanding Children's Drawings</em> (New York: Guilford Press, 1998), 34–41.</li>
+        <li id="fn1-2">Lenore Terr argues that children traumatized before roughly age three rarely articulate the event verbally, instead reenacting it through behavior, posture, and the formal qualities of their visual production. Terr, <em>Too Scared to Cry: Psychic Trauma in Childhood</em> (New York: Basic Books, 1990), 184–202.</li>
+        <li id="fn1-3">W. J. T. Mitchell's "pictorial turn" frames this as a question for visual culture broadly: that images operate by a logic distinct from, not subordinate to, verbal language. Mitchell, <em>What Do Pictures Want? The Lives and Loves of Images</em> (Chicago: University of Chicago Press, 2005), xiii–xvii.</li>
+      </ol>
     </div>
   </div>
 </section>
@@ -404,21 +442,22 @@ section.dark .tfd { fill: #5a4e3e; }
     <div class="prose">
       <p>From the circle, walls began to grow. A floor. A roof that came to a point at the top, the way a child believes a roof should.</p>
       <p>The house is what we draw next — after the self, the place that holds the self. The house means: <em>I live somewhere. I am kept safe. Someone is inside with me.</em></p>
-      <p>But the study that followed seventeen thousand adults backwards through their lives found something it did not expect to find. The most common place a person is hurt is not outside. <span class="emph">It is inside.</span> The house is the structure that held it, and also the structure that kept anyone outside from seeing.</p>
-      <p>The artist who made sculptures of houses her whole life — small houses balanced on top of each other, ready to fall — said: <em>the lair is a place you go to be safe. The lair is also a trap.</em></p>
-      <p>Same shape. Both things.</p>
+      <p>But the study that followed seventeen thousand adults backwards through their lives found something it did not expect to find. The most common place a person is hurt is not outside. <span class="emph">It is inside.</span> The house is the structure that held it, and also the structure that kept anyone outside from seeing.<sup class="fn-ref"><a href="#fn2-1" id="fnref2-1">4</a></sup></p>
+      <p>The artist who made sculptures of houses her whole life — small houses balanced on top of each other, ready to fall — said: <em>the lair is a place you go to be safe. The lair is also a trap.</em><sup class="fn-ref"><a href="#fn2-2" id="fnref2-2">5</a></sup></p>
+      <p>Same shape. Both things.<sup class="fn-ref"><a href="#fn2-3" id="fnref2-3">6</a></sup></p>
     </div>
-    <div class="micro-cite">
-      <em>Felitti et al., Adverse Childhood Experiences Study</em>, 1998<br>
-      <em>Herman, Trauma and Recovery</em>, 1992<br>
-      <em>Bourgeois, Destruction of the Father</em>, 1998
+    <div class="section-footnotes">
+      <ol>
+        <li id="fn2-1">Vincent J. Felitti et al. surveyed 9,508 adult members of Kaiser Permanente in San Diego in the mid-1990s, finding that adverse childhood experiences — particularly those originating within the household — were dose-dependently associated with major adult health risks and causes of death. Felitti et al., "Relationship of Childhood Abuse and Household Dysfunction to Many of the Leading Causes of Death in Adults: The Adverse Childhood Experiences (ACE) Study," <em>American Journal of Preventive Medicine</em> 14, no. 4 (1998): 245–58.</li>
+        <li id="fn2-2">Bourgeois used the term "lair" repeatedly across her writings to describe domestic structures that contain both protection and threat. Louise Bourgeois, <em>Destruction of the Father / Reconstruction of the Father: Writings and Interviews, 1923–1997</em>, ed. Marie-Laure Bernadac and Hans-Ulrich Obrist (Cambridge: MIT Press, 1998), 144–46.</li>
+        <li id="fn2-3">Judith Herman situates this contradiction within a broader argument about the social structures that maintain silence around domestic violence and child abuse: trauma is held in place not only by individuals but by the institutions and intimacies that surround them. Herman, <em>Trauma and Recovery: The Aftermath of Violence</em> (New York: Basic Books, 1992), 7–32.</li>
+      </ol>
     </div>
   </div>
 
   <div class="stage">
     <svg viewBox="0 0 500 500">
       <defs>
-        <!-- house outline as paths -->
         <path id="h-roof-l" d="M 60,240 L 250,70"/>
         <path id="h-roof-r" d="M 250,70 L 440,240"/>
         <path id="h-wall-l" d="M 60,240 L 60,450"/>
@@ -439,54 +478,23 @@ section.dark .tfd { fill: #5a4e3e; }
       </defs>
 
       <g class="tremble">
-        <!-- roof -->
-        <text class="tf">
-          <textPath href="#h-roof-l" startOffset="2%">a roof that came to a point at the top — the way a child believes a roof should — a roof — a roof — the way a child —</textPath>
-        </text>
-        <text class="tf">
-          <textPath href="#h-roof-r" startOffset="2%">— the place that holds the self — somewhere inside someone with me is keeping me — the place that holds the self —</textPath>
-        </text>
-
-        <!-- walls -->
-        <text class="tfl">
-          <textPath href="#h-wall-l" startOffset="3%">silence — domestic — silence — ordinary — silence — domestic — the unspeakable inside the ordinary — silence — domestic — silence — ordinary — silence — kept inside — silence — ordinary — silence — domestic</textPath>
-        </text>
-        <text class="tfl">
-          <textPath href="#h-wall-r" startOffset="3%">the structure that held it — and kept it in — that made it invisible from outside — held it — kept it in — invisible from outside — held it — kept it in — held it — kept it in — held it — invisible</textPath>
-        </text>
-
-        <!-- floor -->
-        <text class="tf" style="font-size:8.5px;">
-          <textPath href="#h-floor" startOffset="1%">ACE Study, 1998 — adverse childhood experiences most commonly originate within the family home — within the ordinary domestic structure — within the ordinary —</textPath>
-        </text>
-
-        <!-- door -->
-        <text class="tfa">
-          <textPath href="#h-door-l" startOffset="3%">the lair — refuge — the lair — refuge —</textPath>
-        </text>
-        <text class="tfa">
-          <textPath href="#h-door-r" startOffset="3%">— and also — a trap — also a trap —</textPath>
-        </text>
-        <text class="tfd" style="font-size:7px;">
-          <textPath href="#h-door-t" startOffset="6%">security of the lair</textPath>
-        </text>
-
-        <!-- left window -->
+        <text class="tf"><textPath href="#h-roof-l" startOffset="2%">a roof that came to a point at the top — the way a child believes a roof should — a roof — a roof — the way a child —</textPath></text>
+        <text class="tf"><textPath href="#h-roof-r" startOffset="2%">— the place that holds the self — somewhere inside someone with me is keeping me — the place that holds the self —</textPath></text>
+        <text class="tfl"><textPath href="#h-wall-l" startOffset="3%">silence — domestic — silence — ordinary — silence — domestic — the unspeakable inside the ordinary — silence — domestic — silence — ordinary — silence — kept inside — silence — ordinary — silence — domestic</textPath></text>
+        <text class="tfl"><textPath href="#h-wall-r" startOffset="3%">the structure that held it — and kept it in — that made it invisible from outside — held it — kept it in — invisible from outside — held it — kept it in — held it — kept it in — held it — invisible</textPath></text>
+        <text class="tf" style="font-size:8.5px;"><textPath href="#h-floor" startOffset="1%">ACE Study, 1998 — adverse childhood experiences most commonly originate within the family home — within the ordinary domestic structure — within the ordinary —</textPath></text>
+        <text class="tfa"><textPath href="#h-door-l" startOffset="3%">the lair — refuge — the lair — refuge —</textPath></text>
+        <text class="tfa"><textPath href="#h-door-r" startOffset="3%">— and also — a trap — also a trap —</textPath></text>
+        <text class="tfd" style="font-size:7px;"><textPath href="#h-door-t" startOffset="6%">security of the lair</textPath></text>
         <text class="tfd"><textPath href="#h-window-l-t" startOffset="5%">looking in — looking in — looking</textPath></text>
         <text class="tfd"><textPath href="#h-window-l-b" startOffset="5%">looking out — looking out — looking</textPath></text>
         <text class="tfd"><textPath href="#h-window-l-l" startOffset="8%">unseen — unseen — unseen</textPath></text>
         <text class="tfd"><textPath href="#h-window-l-r" startOffset="8%">unheard — unheard — unheard</textPath></text>
-
-        <!-- right window -->
         <text class="tfd"><textPath href="#h-window-r-t" startOffset="5%">— private — private — private —</textPath></text>
         <text class="tfd"><textPath href="#h-window-r-b" startOffset="5%">— familiar — familiar — familiar —</textPath></text>
         <text class="tfd"><textPath href="#h-window-r-l" startOffset="8%">— kept — kept — kept — kept —</textPath></text>
         <text class="tfd"><textPath href="#h-window-r-r" startOffset="8%">— quiet — quiet — quiet — quiet —</textPath></text>
-
-        <!-- smoke -->
-        <text class="tfa" style="font-size:7.5px;">
-          <textPath href="#h-smoke" startOffset="0%">— ready to fall —</textPath>
-        </text>
+        <text class="tfa" style="font-size:7.5px;"><textPath href="#h-smoke" startOffset="0%">— ready to fall —</textPath></text>
       </g>
     </svg>
   </div>
@@ -513,31 +521,18 @@ section.dark .tfd { fill: #5a4e3e; }
       </defs>
 
       <g class="breathe">
-        <!-- head -->
         <text class="tfd"><textPath href="#b-head" startOffset="0">the brain that turns experience into a story had not finished growing yet — had not finished growing — had not finished —</textPath></text>
         <text class="tfa"><textPath href="#b-head-i" startOffset="5%">the part that makes sentences was not ready — was not ready — was not ready —</textPath></text>
-
-        <!-- neck -->
         <text class="tfl"><textPath href="#b-neck" startOffset="0">held —</textPath></text>
-
-        <!-- torso -->
-        <text class="tfa" style="font-size:11px;">
-          <textPath href="#b-torso-c" startOffset="2%">the body keeps the score — the body keeps the score — the body keeps the score —</textPath>
-        </text>
+        <text class="tfa" style="font-size:11px;"><textPath href="#b-torso-c" startOffset="2%">the body keeps the score — the body keeps the score — the body keeps the score —</textPath></text>
         <text class="tf"><textPath href="#b-torso-l" startOffset="0">stored below language — in muscle — in reflex — in the nervous system — preverbal — preverbal — stored below language —</textPath></text>
         <text class="tf"><textPath href="#b-torso-r" startOffset="0">the experience went somewhere else — it went into the body — it lives there now — it lives there now — it lives there —</textPath></text>
-
-        <!-- arms -->
         <text class="tfl"><textPath href="#b-arm-l-up" startOffset="0">arms that do not reach out —</textPath></text>
         <text class="tfl"><textPath href="#b-arm-l-dn" startOffset="0">hands that do not open — hands kept close —</textPath></text>
         <text class="tfl"><textPath href="#b-arm-r-up" startOffset="0">— the held breath — the held breath —</textPath></text>
         <text class="tfl"><textPath href="#b-arm-r-dn" startOffset="0">— tension that does not let go — tension that does not —</textPath></text>
-
-        <!-- legs -->
         <text class="tf"><textPath href="#b-leg-l" startOffset="0">muscles that flinch before the child knows why — muscles that flinch — before the child knows — before the child —</textPath></text>
         <text class="tf"><textPath href="#b-leg-r" startOffset="0">a mouth that is a single closed line — a face the hand draws without a face — without a face — closed line —</textPath></text>
-
-        <!-- floor -->
         <text class="tfd" style="font-size:8px;"><textPath href="#b-floor" startOffset="0">feet that do not quite touch the ground — feet that do not quite touch the ground — feet that do not — touch —</textPath></text>
       </g>
     </svg>
@@ -548,16 +543,19 @@ section.dark .tfd { fill: #5a4e3e; }
     <div class="marker-label">The Body — and then something happened</div>
     <div class="prose">
       <p>Something happened inside the house. The story does not need to say what.</p>
-      <p>What matters is this: the child was too young to have a word for it. The part of the brain that turns experience into a story — that takes a thing that happened and makes it into a sentence — had not finished growing yet.</p>
+      <p>What matters is this: the child was too young to have a word for it. The part of the brain that turns experience into a story — that takes a thing that happened and makes it into a sentence — had not finished growing yet.<sup class="fn-ref"><a href="#fn3-1" id="fnref3-1">7</a></sup></p>
       <p>So the experience went somewhere else. <span class="emph">It went into the body.</span></p>
-      <p>It lives there now. In the muscles that flinch before the child knows why. In the breath that holds itself without being asked. In the way the hand draws a figure with arms that do not reach out, with a mouth that is a single closed line, with feet that do not quite touch the ground.</p>
-      <p>The doctor who spent his life studying this wrote a sentence that became famous: <em>the body keeps the score.</em> He meant: the body remembers what the mind cannot.</p>
-      <p>This is why a child's drawing of a person is never just a drawing of a person. It is a drawing of how it feels to live inside a body that knows something the child has not been told.</p>
+      <p>It lives there now. In the muscles that flinch before the child knows why. In the breath that holds itself without being asked. In the way the hand draws a figure with arms that do not reach out, with a mouth that is a single closed line, with feet that do not quite touch the ground.<sup class="fn-ref"><a href="#fn3-2" id="fnref3-2">8</a></sup></p>
+      <p>The doctor who spent his life studying this wrote a sentence that became famous: <em>the body keeps the score.</em> He meant: the body remembers what the mind cannot.<sup class="fn-ref"><a href="#fn3-3" id="fnref3-3">9</a></sup></p>
+      <p>This is why a child's drawing of a person is never just a drawing of a person. It is a drawing of how it feels to live inside a body that knows something the child has not been told.<sup class="fn-ref"><a href="#fn3-4" id="fnref3-4">10</a></sup></p>
     </div>
-    <div class="micro-cite">
-      <em>van der Kolk, The Body Keeps the Score</em>, 2014<br>
-      <em>Buss, Warren & Horton, Trauma and Treatment in Early Childhood</em>, 2015<br>
-      <em>Terr, Too Scared to Cry</em>, 1990
+    <div class="section-footnotes">
+      <ol>
+        <li id="fn3-1">Kristen E. Buss, Jeffrey M. Warren, and Evette Horton review the developmental literature on early childhood trauma, noting that linguistic and narrative encoding of experience is not yet available to children during the period in which somatic and behavioral encoding predominates. Buss, Warren, and Horton, "Trauma and Treatment in Early Childhood: A Review of the Historical and Emerging Literature for Counselors," <em>The Professional Counselor</em> 5, no. 2 (2015): 225–37.</li>
+        <li id="fn3-2">Terr's longitudinal work on the Chowchilla kidnapping case provides extensive observation of how preverbal trauma surfaces through bodily reenactment, posture, and gestural drawing rather than through narrative report. Terr, <em>Too Scared to Cry</em>, 233–60.</li>
+        <li id="fn3-3">Bessel van der Kolk synthesizes three decades of neurobiological research to argue that traumatic memory is stored somatically — in the limbic system, the autonomic nervous system, and procedural motor pathways — rather than in the verbal-narrative regions of the cortex. Van der Kolk, <em>The Body Keeps the Score: Brain, Mind, and Body in the Healing of Trauma</em> (New York: Penguin Books, 2014), 88–110.</li>
+        <li id="fn3-4">On the formal reading of children's figurative drawings beyond iconographic content, see Malchiodi, <em>Understanding Children's Drawings</em>, 86–98, and the discussion of nonverbal expression in Lisa G. Eaton, David Doherty, and Renée Widrick, "A Review of Research and Methods Used to Establish Art Therapy as an Effective Treatment Method for Traumatized Children," <em>The Arts in Psychotherapy</em> 34, no. 3 (2007): 256–62.</li>
+      </ol>
     </div>
   </div>
 </section>
@@ -570,21 +568,22 @@ section.dark .tfd { fill: #5a4e3e; }
     <div class="prose">
       <p>The line that drew the body kept going. It did not stop where the body ended. It curled back. It went around again.</p>
       <p>This is what suppression looks like when you draw it. Not a closed door — a line that returns. A thing the child cannot name, so the hand draws it instead, again, and again, and again, in smaller and smaller circles, until the center is just a point.</p>
-      <p>One philosopher wrote that emotions do not stay inside us. <em>They circulate. They stick to things</em> — to rooms, to objects, to the smell of certain weather. They accumulate. What we feel is partly what we feel, and partly what has been left on us by everyone who came before.</p>
-      <p>The sculptor who made the same childhood into art for seventy years said: <em>every day you have to abandon your past, or accept it. If you cannot accept it, you become a sculptor.</em></p>
-      <p class="emph">She did not resolve it. She kept finding new shapes for it. That was the work.</p>
+      <p>One philosopher wrote that emotions do not stay inside us. <em>They circulate. They stick to things</em> — to rooms, to objects, to the smell of certain weather. They accumulate. What we feel is partly what we feel, and partly what has been left on us by everyone who came before.<sup class="fn-ref"><a href="#fn4-1" id="fnref4-1">11</a></sup></p>
+      <p>The sculptor who made the same childhood into art for seventy years said: <em>every day you have to abandon your past, or accept it. If you cannot accept it, you become a sculptor.</em><sup class="fn-ref"><a href="#fn4-2" id="fnref4-2">12</a></sup></p>
+      <p class="emph">She did not resolve it. She kept finding new shapes for it. That was the work.<sup class="fn-ref"><a href="#fn4-3" id="fnref4-3">13</a></sup></p>
     </div>
-    <div class="micro-cite">
-      <em>Ahmed, The Cultural Politics of Emotion</em>, 2014<br>
-      <em>Bourgeois, Destruction of the Father</em>, 1998<br>
-      <em>Herman, Trauma and Recovery</em>, 1992
+    <div class="section-footnotes">
+      <ol>
+        <li id="fn4-1">Sara Ahmed's central argument in <em>The Cultural Politics of Emotion</em> is that affect is not an interior state but a circulating force that accumulates across surfaces, bodies, and objects, leaving residue over time. Ahmed, <em>The Cultural Politics of Emotion</em>, 2nd ed. (Edinburgh: Edinburgh University Press, 2014), 8–14.</li>
+        <li id="fn4-2">Bourgeois made this statement in a 1988 interview, later collected in her published writings. Bourgeois, <em>Destruction of the Father / Reconstruction of the Father</em>, 156.</li>
+        <li id="fn4-3">On Bourgeois's compulsive return to childhood material as artistic method rather than therapeutic resolution, see the introductory essays in <em>Destruction of the Father / Reconstruction of the Father</em>, 4–18; on the broader structure of repetition in trauma response, see Herman, <em>Trauma and Recovery</em>, 33–50.</li>
+      </ol>
     </div>
   </div>
 
   <div class="stage">
     <svg viewBox="0 0 500 500" id="spiral-stage">
       <defs>
-        <!-- archimedean-style spiral made from concentric circle slices, biggest to smallest -->
         <path id="sp-1" d="M250,250 m-225,0 a225,225 0 1,1 450,0 a225,225 0 1,1 -450,0"/>
         <path id="sp-2" d="M250,250 m-205,0 a205,205 0 1,1 410,0 a410,205 0 1,1 -410,0"/>
         <path id="sp-3" d="M250,250 m-185,0 a185,185 0 1,1 370,0 a370,185 0 1,1 -370,0"/>
@@ -659,15 +658,36 @@ section.dark .tfd { fill: #5a4e3e; }
     <div class="prose">
       <p>At some point the line broke.</p>
       <p>This is what trauma looks like when it is remembered, if it is remembered. Not a story with a beginning and an end. <em>A scatter.</em> Pieces arriving at odd angles. A smell. A color. A doorway. The feeling of a hand on the back of your neck. None of it in order.</p>
-      <p>The theorist of pictures wrote: <em>images are not silent illustrations of what we already know how to say. Images think differently.</em> They arrive sideways. They carry meaning the way bodies carry weight — without explanation.</p>
+      <p>The theorist of pictures wrote: <em>images are not silent illustrations of what we already know how to say. Images think differently.</em> They arrive sideways. They carry meaning the way bodies carry weight — without explanation.<sup class="fn-ref"><a href="#fn5-1" id="fnref5-1">14</a></sup></p>
       <p>This is the answer, or part of an answer, to the question this project began with. What can images do that language cannot?</p>
-      <p class="emph">They can hold what does not fit into a sentence. They can show the shape of something without naming it. They can be a place where the unspeakable goes to live — not so that it disappears, but so that it has somewhere to be.</p>
+      <p class="emph">They can hold what does not fit into a sentence. They can show the shape of something without naming it. They can be a place where the unspeakable goes to live — not so that it disappears, but so that it has somewhere to be.<sup class="fn-ref"><a href="#fn5-2" id="fnref5-2">15</a></sup></p>
       <p>A child who cannot say what happened draws a circle. The circle is not a confession. It is a beginning.</p>
     </div>
-    <div class="micro-cite">
-      <em>Mitchell, What Do Pictures Want?</em>, 2005<br>
-      <em>Malchiodi, Understanding Children's Drawings</em>, 1998<br>
-      <em>Eaton, Doherty & Widrick, Arts in Psychotherapy</em>, 2007
+    <div class="section-footnotes">
+      <ol>
+        <li id="fn5-1">Mitchell's "pictorial turn" reframes visual culture as a distinct epistemic field rather than a subordinate one to text, positioning images as agents that carry meaning beyond what verbal language can articulate. Mitchell, <em>What Do Pictures Want?</em>, 28–56.</li>
+        <li id="fn5-2">Eaton, Doherty, and Widrick's literature review of art therapy with traumatized children demonstrates that nonverbal modes of expression access psychological material inaccessible through verbal means, supporting the broader argument that visual form is a primary, not supplementary, mode of testimony. Eaton, Doherty, and Widrick, "A Review of Research and Methods," 256–62.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BIBLIOGRAPHY ============ -->
+<section id="bibliography" class="scroll-fade">
+  <div>
+    <div class="biblio-header">References &nbsp;·&nbsp; Chicago Manual of Style</div>
+    <div class="biblio-title">Bibliography</div>
+    <div class="biblio-list">
+      <div class="biblio-entry">Ahmed, Sara. <em>The Cultural Politics of Emotion.</em> 2nd ed. Edinburgh: Edinburgh University Press, 2014.</div>
+      <div class="biblio-entry">Bourgeois, Louise. <em>Destruction of the Father / Reconstruction of the Father: Writings and Interviews, 1923–1997.</em> Edited by Marie-Laure Bernadac and Hans-Ulrich Obrist. Cambridge, MA: MIT Press, 1998.</div>
+      <div class="biblio-entry">Buss, Kristen E., Jeffrey M. Warren, and Evette Horton. "Trauma and Treatment in Early Childhood: A Review of the Historical and Emerging Literature for Counselors." <em>The Professional Counselor</em> 5, no. 2 (2015): 225–37.</div>
+      <div class="biblio-entry">Eaton, Lisa G., David Doherty, and Renée Widrick. "A Review of Research and Methods Used to Establish Art Therapy as an Effective Treatment Method for Traumatized Children." <em>The Arts in Psychotherapy</em> 34, no. 3 (2007): 256–62.</div>
+      <div class="biblio-entry">Felitti, Vincent J., Robert F. Anda, Dale Nordenberg, David F. Williamson, Alison M. Spitz, Valerie Edwards, Mary P. Koss, and James S. Marks. "Relationship of Childhood Abuse and Household Dysfunction to Many of the Leading Causes of Death in Adults: The Adverse Childhood Experiences (ACE) Study." <em>American Journal of Preventive Medicine</em> 14, no. 4 (1998): 245–58.</div>
+      <div class="biblio-entry">Herman, Judith Lewis. <em>Trauma and Recovery: The Aftermath of Violence — From Domestic Abuse to Political Terror.</em> New York: Basic Books, 1992.</div>
+      <div class="biblio-entry">Malchiodi, Cathy A. <em>Understanding Children's Drawings.</em> New York: Guilford Press, 1998.</div>
+      <div class="biblio-entry">Mitchell, W. J. T. <em>What Do Pictures Want? The Lives and Loves of Images.</em> Chicago: University of Chicago Press, 2005.</div>
+      <div class="biblio-entry">Terr, Lenore. <em>Too Scared to Cry: Psychic Trauma in Childhood.</em> New York: Basic Books, 1990.</div>
+      <div class="biblio-entry">Van der Kolk, Bessel. <em>The Body Keeps the Score: Brain, Mind, and Body in the Healing of Trauma.</em> New York: Penguin Books, 2014.</div>
     </div>
   </div>
 </section>
@@ -693,7 +713,6 @@ section.dark .tfd { fill: #5a4e3e; }
 </section>
 
 <script>
-// Scatter parallax — natural mouse-driven drift with inertia
 (function() {
   const stage = document.getElementById('scatter-stage');
   if (!stage) return;
