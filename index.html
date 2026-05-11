@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unspoken</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --ink: #1c1814;
+  --paper: #efe8d8;
+  --paper-2: #e8dfc8;
+  --muted: #8a7a64;
+  --accent: #7a3020;
+  --rule: #b8a888;
+  --dim: #a89878;
+}
+
+html, body {
+  background: var(--paper);
+  font-family: 'EB Garamond', serif;
+  color: var(--ink);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+  mix-blend-mode: multiply;
+}
+
+/* === SECTION SHELL === */
+section {
+  min-height: 100vh;
+  padding: 18vh 6vw;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8vw;
+  align-items: center;
+}
+
+section.alt { background: var(--paper-2); }
+section.dark {
+  background: #1a1612;
+  color: var(--paper);
+}
+section.dark .marker { color: #6a5a4a; }
+section.dark .marker-label { color: #9a5040; }
+section.dark .prose { color: #c8b8a0; }
+section.dark .prose em { color: #d4a890; }
+section.dark .micro-cite { color: #6a5a4a; }
+section.dark .micro-cite em { color: #b8856a; }
+
+/* === OPENING === */
+#opening {
+  grid-template-columns: 1fr;
+  text-align: left;
+  padding: 24vh 10vw;
+  min-height: 100vh;
+}
+
+.title-block {
+  max-width: 700px;
+}
+
+.eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.4em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 56px;
+}
+
+h1 {
+  font-size: clamp(64px, 11vw, 140px);
+  font-weight: 400;
+  line-height: 0.88;
+  letter-spacing: -0.035em;
+  margin-bottom: 32px;
+}
+
+h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.thesis-line {
+  font-size: clamp(18px, 1.8vw, 24px);
+  font-style: italic;
+  color: #4a4036;
+  line-height: 1.5;
+  max-width: 36ch;
+  margin-top: 24px;
+  border-left: 1px solid var(--rule);
+  padding-left: 24px;
+}
+
+.research-question {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: 80px;
+  max-width: 70ch;
+  line-height: 2;
+}
+
+/* === STAGE: where the form lives === */
+.stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.stage svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* === PROSE COLUMN === */
+.prose-col {
+  max-width: 480px;
+}
+
+.marker {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  color: var(--dim);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.marker-label {
+  font-family: 'EB Garamond', serif;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--accent);
+  margin-bottom: 36px;
+}
+
+.prose {
+  font-size: clamp(15px, 1.15vw, 17px);
+  line-height: 1.85;
+  color: #3a342c;
+}
+
+.prose p {
+  margin-bottom: 1.4em;
+}
+
+.prose em {
+  font-style: italic;
+  color: var(--ink);
+}
+
+.prose .emph {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.micro-cite {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  margin-top: 48px;
+  line-height: 1.9;
+  border-top: 1px solid var(--rule);
+  padding-top: 16px;
+}
+
+.micro-cite em {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 11px;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+
+/* === TEXT-AS-FORM STYLES === */
+.tf  { font-family: 'EB Garamond', serif; font-size: 9px;  fill: var(--ink); }
+.tfl { font-family: 'EB Garamond', serif; font-size: 8.5px; fill: var(--muted); }
+.tfa { font-family: 'EB Garamond', serif; font-size: 10px; fill: var(--accent); font-style: italic; }
+.tfd { font-family: 'EB Garamond', serif; font-size: 7.5px; fill: var(--dim); }
+
+section.dark .tf  { fill: #c8b8a0; }
+section.dark .tfl { fill: #8a7a60; }
+section.dark .tfa { fill: #d4856a; }
+section.dark .tfd { fill: #5a4e3e; }
+
+/* === ANIMATED HOOKS === */
+.tremble {
+  animation: tremble 4s ease-in-out infinite;
+  transform-origin: center;
+}
+@keyframes tremble {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(0.4px, -0.3px) rotate(0.15deg); }
+  50% { transform: translate(-0.3px, 0.5px) rotate(-0.1deg); }
+  75% { transform: translate(0.5px, 0.2px) rotate(0.08deg); }
+}
+
+.breathe {
+  animation: breathe 8s ease-in-out infinite;
+  transform-origin: center;
+}
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.015); opacity: 0.92; }
+}
+
+.drift {
+  animation: drift 14s ease-in-out infinite;
+}
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0); }
+  33% { transform: translate(1px, -0.8px); }
+  66% { transform: translate(-0.8px, 1px); }
+}
+
+/* === CLOSING === */
+#closing {
+  grid-template-columns: 1fr;
+  text-align: left;
+  min-height: 70vh;
+  padding: 16vh 10vw;
+}
+
+.closing-prose {
+  max-width: 36em;
+  font-size: clamp(17px, 1.4vw, 22px);
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.closing-prose p { margin-bottom: 1.2em; }
+
+.colophon {
+  margin-top: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-top: 1px solid var(--rule);
+  padding-top: 24px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  color: var(--muted);
+  text-transform: uppercase;
+  line-height: 2.2;
+}
+
+.colophon .sig {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 32px;
+  letter-spacing: -0.02em;
+  color: var(--rule);
+  text-transform: none;
+}
+
+/* === SCATTER INTERACTION === */
+#scatter-stage text {
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* === SCROLL-DRIVEN (modern browsers) === */
+@supports (animation-timeline: scroll()) {
+  .scroll-fade {
+    animation: scroll-fade-in linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
+  }
+  @keyframes scroll-fade-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+/* Mobile */
+@media (max-width: 800px) {
+  section {
+    grid-template-columns: 1fr;
+    padding: 12vh 6vw;
+    gap: 6vh;
+  }
+  #opening, #closing { padding: 18vh 6vw; }
+  .stage { max-width: 90vw; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ OPENING ============ -->
+<section id="opening">
+  <div class="title-block">
+    <div class="eyebrow">A Visual Research Handbook &nbsp;·&nbsp; ARS: Visual Culture</div>
+    <h1><em>Un</em>spoken</h1>
+    <div class="thesis-line">This handbook is the argument. Its form is the claim. The forms it holds are not illustrations of trauma — they are the shapes trauma makes when it is given a place to live.</div>
+    <div class="research-question">
+      Research question — How is childhood psychological trauma communicated through visual means, and what can images do that language cannot, particularly when the subject is too young to have words for what they experienced?
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROLOGUE ============ -->
+<section class="alt scroll-fade" style="grid-template-columns: 1fr; padding: 20vh 12vw;">
+  <div class="prose" style="max-width: 30em; font-size: clamp(17px, 1.4vw, 22px); font-style: italic; line-height: 1.65;">
+    <p>Once, before anything happened, there was a hand that did not yet know what a hand was. The hand reached out and touched a wall. The wall was warm.</p>
+    <p>This is how the world begins — by being touched.</p>
+    <p>The hand learned to hold a pencil. The pencil learned to make a mark. The mark learned to close itself into a shape.</p>
+  </div>
+</section>
+
+<!-- ============ I. THE CIRCLE ============ -->
+<section class="scroll-fade">
+  <div class="stage">
+    <svg viewBox="0 0 500 500">
+      <defs>
+        <path id="c-r1" d="M250,250 m-220,0 a220,220 0 1,1 440,0 a220,220 0 1,1 -440,0"/>
+        <path id="c-r2" d="M250,250 m-195,0 a195,195 0 1,1 390,0 a390,195 0 1,1 -390,0"/>
+        <path id="c-r3" d="M250,250 m-172,0 a172,172 0 1,1 344,0 a344,172 0 1,1 -344,0"/>
+        <path id="c-r4" d="M250,250 m-150,0 a150,150 0 1,1 300,0 a300,150 0 1,1 -300,0"/>
+        <path id="c-r5" d="M250,250 m-128,0 a128,128 0 1,1 256,0 a256,128 0 1,1 -256,0"/>
+        <path id="c-r6" d="M250,250 m-108,0 a108,108 0 1,1 216,0 a216,108 0 1,1 -216,0"/>
+        <path id="c-r7" d="M250,250 m-88,0 a88,88 0 1,1 176,0 a176,88 0 1,1 -176,0"/>
+        <path id="c-r8" d="M250,250 m-68,0 a68,68 0 1,1 136,0 a136,68 0 1,1 -136,0"/>
+        <path id="c-r9" d="M250,250 m-50,0 a50,50 0 1,1 100,0 a100,50 0 1,1 -100,0"/>
+        <path id="c-r10" d="M250,250 m-32,0 a32,32 0 1,1 64,0 a64,32 0 1,1 -64,0"/>
+      </defs>
+      <g class="breathe">
+        <text class="tfd">
+          <textPath href="#c-r1" startOffset="0">closed and returning — closed and returning — closed and returning — the first thing the hand knows how to do — closed and returning — the first thing the hand knows — closed —</textPath>
+        </text>
+        <text class="tfl">
+          <textPath href="#c-r2" startOffset="5%">before a child has a word for what happened, they draw a circle — before a child has a word — they draw a circle — before language arrives, the hand already knows — before a word —</textPath>
+        </text>
+        <text class="tf">
+          <textPath href="#c-r3" startOffset="12%">not because someone taught them — the circle is what the hand does on its own — the head, the sun, the self — not because someone taught them —</textPath>
+        </text>
+        <text class="tfl">
+          <textPath href="#c-r4" startOffset="20%">the therapist does not ask what it means — she watches how hard the pencil pressed — whether the line trembled — whether it closed all the way — or left a door —</textPath>
+        </text>
+        <text class="tfa">
+          <textPath href="#c-r5" startOffset="30%">how do you make form for something that arrived before language did — how do you make form — how do you make form —</textPath>
+        </text>
+        <text class="tf">
+          <textPath href="#c-r6" startOffset="42%">density, pressure, the weight of the mark, the shape of the silence inside the shape — density, pressure, the weight of the mark — density, pressure —</textPath>
+        </text>
+        <text class="tfl">
+          <textPath href="#c-r7" startOffset="55%">not the sad figure in the rain — not the dark sky — not the crying child — not the obvious — something quieter — something subtler — something underneath —</textPath>
+        </text>
+        <text class="tfa">
+          <textPath href="#c-r8" startOffset="68%">the brief no one writes down — the brief no one writes down — the brief no one writes down — the brief —</textPath>
+        </text>
+        <text class="tfd">
+          <textPath href="#c-r9" startOffset="80%">close — return — close — return — close — return — close — return — close —</textPath>
+        </text>
+        <text class="tf" style="font-size:7px;">
+          <textPath href="#c-r10" startOffset="90%">begin — begin — begin — begin — begin —</textPath>
+        </text>
+      </g>
+      <circle cx="250" cy="250" r="10" fill="none" stroke="#b8a888" stroke-width="0.5"/>
+    </svg>
+  </div>
+
+  <div class="prose-col">
+    <div class="marker">Form 01</div>
+    <div class="marker-label">The Circle — the first form</div>
+    <div class="prose">
+      <p>Before a child has a word for what happened, they draw a circle.</p>
+      <p>Not because someone taught them. The circle is the first thing the hand knows how to do — <em>close, and return.</em> The head. The sun. The self.</p>
+      <p>The therapist sitting across the table does not ask what it means. She watches instead how hard the pencil pressed into the paper. Whether the line trembled. Whether it closed all the way, or left a small opening at the bottom — a door the child did not know they were drawing.</p>
+      <p class="emph">This is the brief no one writes down: how do you make form for something that arrived before language did?</p>
+    </div>
+    <div class="micro-cite">
+      <em>Malchiodi, Understanding Children's Drawings</em>, 1998<br>
+      <em>Mitchell, What Do Pictures Want?</em>, 2005<br>
+      <em>Terr, Too Scared to Cry</em>, 1990
+    </div>
+  </div>
+</section>
+
+<!-- ============ II. THE HOUSE ============ -->
+<section class="alt scroll-fade">
+  <div class="prose-col">
+    <div class="marker">Form 02</div>
+    <div class="marker-label">The House — and the form began to extend itself</div>
+    <div class="prose">
+      <p>From the circle, walls began to grow. A floor. A roof that came to a point at the top, the way a child believes a roof should.</p>
+      <p>The house is what we draw next — after the self, the place that holds the self. The house means: <em>I live somewhere. I am kept safe. Someone is inside with me.</em></p>
+      <p>But the study that followed seventeen thousand adults backwards through their lives found something it did not expect to find. The most common place a person is hurt is not outside. <span class="emph">It is inside.</span> The house is the structure that held it, and also the structure that kept anyone outside from seeing.</p>
+      <p>The artist who made sculptures of houses her whole life — small houses balanced on top of each other, ready to fall — said: <em>the lair is a place you go to be safe. The lair is also a trap.</em></p>
+      <p>Same shape. Both things.</p>
+    </div>
+    <div class="micro-cite">
+      <em>Felitti et al., Adverse Childhood Experiences Study</em>, 1998<br>
+      <em>Herman, Trauma and Recovery</em>, 1992<br>
+      <em>Bourgeois, Destruction of the Father</em>, 1998
+    </div>
+  </div>
+
+  <div class="stage">
+    <svg viewBox="0 0 500 500">
+      <defs>
+        <!-- house outline as paths -->
+        <path id="h-roof-l" d="M 60,240 L 250,70"/>
+        <path id="h-roof-r" d="M 250,70 L 440,240"/>
+        <path id="h-wall-l" d="M 60,240 L 60,450"/>
+        <path id="h-wall-r" d="M 440,240 L 440,450"/>
+        <path id="h-floor"  d="M 60,450 L 440,450"/>
+        <path id="h-door-l" d="M 190,450 L 190,330"/>
+        <path id="h-door-r" d="M 310,330 L 310,450"/>
+        <path id="h-door-t" d="M 190,330 L 310,330"/>
+        <path id="h-window-l-t" d="M 100,290 L 170,290"/>
+        <path id="h-window-l-b" d="M 100,360 L 170,360"/>
+        <path id="h-window-l-l" d="M 100,290 L 100,360"/>
+        <path id="h-window-l-r" d="M 170,290 L 170,360"/>
+        <path id="h-window-r-t" d="M 330,290 L 400,290"/>
+        <path id="h-window-r-b" d="M 330,360 L 400,360"/>
+        <path id="h-window-r-l" d="M 330,290 L 330,360"/>
+        <path id="h-window-r-r" d="M 400,290 L 400,360"/>
+        <path id="h-smoke" d="M 340,150 Q 360,120 350,90 Q 340,60 360,40"/>
+      </defs>
+
+      <g class="tremble">
+        <!-- roof -->
+        <text class="tf">
+          <textPath href="#h-roof-l" startOffset="2%">a roof that came to a point at the top — the way a child believes a roof should — a roof — a roof — the way a child —</textPath>
+        </text>
+        <text class="tf">
+          <textPath href="#h-roof-r" startOffset="2%">— the place that holds the self — somewhere inside someone with me is keeping me — the place that holds the self —</textPath>
+        </text>
+
+        <!-- walls -->
+        <text class="tfl">
+          <textPath href="#h-wall-l" startOffset="3%">silence — domestic — silence — ordinary — silence — domestic — the unspeakable inside the ordinary — silence — domestic — silence — ordinary — silence — kept inside — silence — ordinary — silence — domestic</textPath>
+        </text>
+        <text class="tfl">
+          <textPath href="#h-wall-r" startOffset="3%">the structure that held it — and kept it in — that made it invisible from outside — held it — kept it in — invisible from outside — held it — kept it in — held it — kept it in — held it — invisible</textPath>
+        </text>
+
+        <!-- floor -->
+        <text class="tf" style="font-size:8.5px;">
+          <textPath href="#h-floor" startOffset="1%">ACE Study, 1998 — adverse childhood experiences most commonly originate within the family home — within the ordinary domestic structure — within the ordinary —</textPath>
+        </text>
+
+        <!-- door -->
+        <text class="tfa">
+          <textPath href="#h-door-l" startOffset="3%">the lair — refuge — the lair — refuge —</textPath>
+        </text>
+        <text class="tfa">
+          <textPath href="#h-door-r" startOffset="3%">— and also — a trap — also a trap —</textPath>
+        </text>
+        <text class="tfd" style="font-size:7px;">
+          <textPath href="#h-door-t" startOffset="6%">security of the lair</textPath>
+        </text>
+
+        <!-- left window -->
+        <text class="tfd"><textPath href="#h-window-l-t" startOffset="5%">looking in — looking in — looking</textPath></text>
+        <text class="tfd"><textPath href="#h-window-l-b" startOffset="5%">looking out — looking out — looking</textPath></text>
+        <text class="tfd"><textPath href="#h-window-l-l" startOffset="8%">unseen — unseen — unseen</textPath></text>
+        <text class="tfd"><textPath href="#h-window-l-r" startOffset="8%">unheard — unheard — unheard</textPath></text>
+
+        <!-- right window -->
+        <text class="tfd"><textPath href="#h-window-r-t" startOffset="5%">— private — private — private —</textPath></text>
+        <text class="tfd"><textPath href="#h-window-r-b" startOffset="5%">— familiar — familiar — familiar —</textPath></text>
+        <text class="tfd"><textPath href="#h-window-r-l" startOffset="8%">— kept — kept — kept — kept —</textPath></text>
+        <text class="tfd"><textPath href="#h-window-r-r" startOffset="8%">— quiet — quiet — quiet — quiet —</textPath></text>
+
+        <!-- smoke -->
+        <text class="tfa" style="font-size:7.5px;">
+          <textPath href="#h-smoke" startOffset="0%">— ready to fall —</textPath>
+        </text>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- ============ III. THE BODY ============ -->
+<section class="dark scroll-fade">
+  <div class="stage">
+    <svg viewBox="0 0 500 500">
+      <defs>
+        <path id="b-head" d="M250,90 m-58,0 a58,58 0 1,1 116,0 a116,58 0 1,1 -116,0"/>
+        <path id="b-head-i" d="M250,90 m-38,0 a38,38 0 1,1 76,0 a76,38 0 1,1 -76,0"/>
+        <path id="b-neck" d="M250,150 L250,170"/>
+        <path id="b-torso-l" d="M250,170 L210,330"/>
+        <path id="b-torso-r" d="M250,170 L290,330"/>
+        <path id="b-torso-c" d="M250,180 L250,330"/>
+        <path id="b-arm-l-up" d="M232,200 L150,260"/>
+        <path id="b-arm-l-dn" d="M150,260 L130,360"/>
+        <path id="b-arm-r-up" d="M268,200 L350,260"/>
+        <path id="b-arm-r-dn" d="M350,260 L370,360"/>
+        <path id="b-leg-l" d="M218,330 L170,470"/>
+        <path id="b-leg-r" d="M282,330 L330,470"/>
+        <path id="b-floor" d="M120,490 L380,490"/>
+      </defs>
+
+      <g class="breathe">
+        <!-- head -->
+        <text class="tfd"><textPath href="#b-head" startOffset="0">the brain that turns experience into a story had not finished growing yet — had not finished growing — had not finished —</textPath></text>
+        <text class="tfa"><textPath href="#b-head-i" startOffset="5%">the part that makes sentences was not ready — was not ready — was not ready —</textPath></text>
+
+        <!-- neck -->
+        <text class="tfl"><textPath href="#b-neck" startOffset="0">held —</textPath></text>
+
+        <!-- torso -->
+        <text class="tfa" style="font-size:11px;">
+          <textPath href="#b-torso-c" startOffset="2%">the body keeps the score — the body keeps the score — the body keeps the score —</textPath>
+        </text>
+        <text class="tf"><textPath href="#b-torso-l" startOffset="0">stored below language — in muscle — in reflex — in the nervous system — preverbal — preverbal — stored below language —</textPath></text>
+        <text class="tf"><textPath href="#b-torso-r" startOffset="0">the experience went somewhere else — it went into the body — it lives there now — it lives there now — it lives there —</textPath></text>
+
+        <!-- arms -->
+        <text class="tfl"><textPath href="#b-arm-l-up" startOffset="0">arms that do not reach out —</textPath></text>
+        <text class="tfl"><textPath href="#b-arm-l-dn" startOffset="0">hands that do not open — hands kept close —</textPath></text>
+        <text class="tfl"><textPath href="#b-arm-r-up" startOffset="0">— the held breath — the held breath —</textPath></text>
+        <text class="tfl"><textPath href="#b-arm-r-dn" startOffset="0">— tension that does not let go — tension that does not —</textPath></text>
+
+        <!-- legs -->
+        <text class="tf"><textPath href="#b-leg-l" startOffset="0">muscles that flinch before the child knows why — muscles that flinch — before the child knows — before the child —</textPath></text>
+        <text class="tf"><textPath href="#b-leg-r" startOffset="0">a mouth that is a single closed line — a face the hand draws without a face — without a face — closed line —</textPath></text>
+
+        <!-- floor -->
+        <text class="tfd" style="font-size:8px;"><textPath href="#b-floor" startOffset="0">feet that do not quite touch the ground — feet that do not quite touch the ground — feet that do not — touch —</textPath></text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="prose-col">
+    <div class="marker">Form 03</div>
+    <div class="marker-label">The Body — and then something happened</div>
+    <div class="prose">
+      <p>Something happened inside the house. The story does not need to say what.</p>
+      <p>What matters is this: the child was too young to have a word for it. The part of the brain that turns experience into a story — that takes a thing that happened and makes it into a sentence — had not finished growing yet.</p>
+      <p>So the experience went somewhere else. <span class="emph">It went into the body.</span></p>
+      <p>It lives there now. In the muscles that flinch before the child knows why. In the breath that holds itself without being asked. In the way the hand draws a figure with arms that do not reach out, with a mouth that is a single closed line, with feet that do not quite touch the ground.</p>
+      <p>The doctor who spent his life studying this wrote a sentence that became famous: <em>the body keeps the score.</em> He meant: the body remembers what the mind cannot.</p>
+      <p>This is why a child's drawing of a person is never just a drawing of a person. It is a drawing of how it feels to live inside a body that knows something the child has not been told.</p>
+    </div>
+    <div class="micro-cite">
+      <em>van der Kolk, The Body Keeps the Score</em>, 2014<br>
+      <em>Buss, Warren & Horton, Trauma and Treatment in Early Childhood</em>, 2015<br>
+      <em>Terr, Too Scared to Cry</em>, 1990
+    </div>
+  </div>
+</section>
+
+<!-- ============ IV. THE SPIRAL ============ -->
+<section class="scroll-fade">
+  <div class="prose-col">
+    <div class="marker">Form 04</div>
+    <div class="marker-label">The Spiral — and the line began to repeat itself</div>
+    <div class="prose">
+      <p>The line that drew the body kept going. It did not stop where the body ended. It curled back. It went around again.</p>
+      <p>This is what suppression looks like when you draw it. Not a closed door — a line that returns. A thing the child cannot name, so the hand draws it instead, again, and again, and again, in smaller and smaller circles, until the center is just a point.</p>
+      <p>One philosopher wrote that emotions do not stay inside us. <em>They circulate. They stick to things</em> — to rooms, to objects, to the smell of certain weather. They accumulate. What we feel is partly what we feel, and partly what has been left on us by everyone who came before.</p>
+      <p>The sculptor who made the same childhood into art for seventy years said: <em>every day you have to abandon your past, or accept it. If you cannot accept it, you become a sculptor.</em></p>
+      <p class="emph">She did not resolve it. She kept finding new shapes for it. That was the work.</p>
+    </div>
+    <div class="micro-cite">
+      <em>Ahmed, The Cultural Politics of Emotion</em>, 2014<br>
+      <em>Bourgeois, Destruction of the Father</em>, 1998<br>
+      <em>Herman, Trauma and Recovery</em>, 1992
+    </div>
+  </div>
+
+  <div class="stage">
+    <svg viewBox="0 0 500 500" id="spiral-stage">
+      <defs>
+        <!-- archimedean-style spiral made from concentric circle slices, biggest to smallest -->
+        <path id="sp-1" d="M250,250 m-225,0 a225,225 0 1,1 450,0 a225,225 0 1,1 -450,0"/>
+        <path id="sp-2" d="M250,250 m-205,0 a205,205 0 1,1 410,0 a410,205 0 1,1 -410,0"/>
+        <path id="sp-3" d="M250,250 m-185,0 a185,185 0 1,1 370,0 a370,185 0 1,1 -370,0"/>
+        <path id="sp-4" d="M250,250 m-166,0 a166,166 0 1,1 332,0 a332,166 0 1,1 -332,0"/>
+        <path id="sp-5" d="M250,250 m-148,0 a148,148 0 1,1 296,0 a296,148 0 1,1 -296,0"/>
+        <path id="sp-6" d="M250,250 m-130,0 a130,130 0 1,1 260,0 a260,130 0 1,1 -260,0"/>
+        <path id="sp-7" d="M250,250 m-112,0 a112,112 0 1,1 224,0 a224,112 0 1,1 -224,0"/>
+        <path id="sp-8" d="M250,250 m-95,0 a95,95 0 1,1 190,0 a190,95 0 1,1 -190,0"/>
+        <path id="sp-9" d="M250,250 m-78,0 a78,78 0 1,1 156,0 a156,78 0 1,1 -156,0"/>
+        <path id="sp-10" d="M250,250 m-62,0 a62,62 0 1,1 124,0 a124,62 0 1,1 -124,0"/>
+        <path id="sp-11" d="M250,250 m-46,0 a46,46 0 1,1 92,0 a92,46 0 1,1 -92,0"/>
+        <path id="sp-12" d="M250,250 m-32,0 a32,32 0 1,1 64,0 a64,32 0 1,1 -64,0"/>
+        <path id="sp-13" d="M250,250 m-20,0 a20,20 0 1,1 40,0 a40,20 0 1,1 -40,0"/>
+        <path id="sp-14" d="M250,250 m-10,0 a10,10 0 1,1 20,0 a20,10 0 1,1 -20,0"/>
+      </defs>
+
+      <g class="drift">
+        <text class="tfd"><textPath href="#sp-1" startOffset="0%">it curled back — it went around again — it curled back — it went around again — the line did not stop where the body ended — it curled back — it went around again — the line did not stop where the body ended — it curled back —</textPath></text>
+        <text class="tfl"><textPath href="#sp-2" startOffset="0%">a thing the child cannot name — so the hand draws it instead — again — and again — and again — a thing the child cannot name — so the hand draws it — again — and again — and again — a thing the child cannot name —</textPath></text>
+        <text class="tf"><textPath href="#sp-3" startOffset="0%">emotions do not stay inside us — they circulate — they stick to things — to rooms — to objects — to the smell of certain weather — they accumulate — they accumulate — they accumulate — they do not stay inside us —</textPath></text>
+        <text class="tfl"><textPath href="#sp-4" startOffset="0%">Ahmed: emotions are not internal states — they are circulating forces — they move between bodies — they leave residue — they do not belong to one person — emotions are circulating forces — they leave residue — they leave residue —</textPath></text>
+        <text class="tfa"><textPath href="#sp-5" startOffset="0%">the return of the repressed — what is buried does not stay buried — it finds another form — it returns — the return of the repressed — what is buried — does not stay — it returns — it returns —</textPath></text>
+        <text class="tf"><textPath href="#sp-6" startOffset="0%">Bourgeois returned to the same childhood for seventy years — she did not resolve it — she kept finding new shapes for it — that was the work — that was the work — she did not resolve it — she kept finding new shapes —</textPath></text>
+        <text class="tfl"><textPath href="#sp-7" startOffset="0%">every day you have to abandon your past or accept it — if you cannot accept it — you become a sculptor — every day — every day — every day — every day — every day — every day —</textPath></text>
+        <text class="tf"><textPath href="#sp-8" startOffset="0%">in smaller and smaller circles — in smaller and smaller circles — in smaller and smaller — in smaller and smaller — in smaller — in smaller — in smaller —</textPath></text>
+        <text class="tfa"><textPath href="#sp-9" startOffset="0%">until the center is just a point — until the center — until the center — until the center is just — a point — just a point — just a point — just —</textPath></text>
+        <text class="tfl"><textPath href="#sp-10" startOffset="0%">turning inward — turning inward — turning inward — turning inward — turning inward — turning inward —</textPath></text>
+        <text class="tfd"><textPath href="#sp-11" startOffset="0%">no exit — no exit — no exit — no exit — no exit — no exit —</textPath></text>
+        <text class="tfd"><textPath href="#sp-12" startOffset="0%">return — return — return — return — return — return — return —</textPath></text>
+        <text class="tfd"><textPath href="#sp-13" startOffset="0%">again — again — again — again — again —</textPath></text>
+        <text class="tfa" style="font-size:7px;"><textPath href="#sp-14" startOffset="0%">— here — here — here —</textPath></text>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- ============ V. THE SCATTER ============ -->
+<section class="alt scroll-fade">
+  <div class="stage" id="scatter-stage">
+    <svg viewBox="0 0 500 500">
+      <g id="scatter-group">
+        <text data-px="0.6" x="20"  y="44"  class="tf" style="font-size:16px; font-style:italic;">what do</text>
+        <text data-px="-0.4" x="320" y="62"  class="tfl" style="font-size:11px;">pictures want?</text>
+        <text data-px="0.9" x="62"  y="100" class="tfa" style="font-size:22px;">images</text>
+        <text data-px="-0.7" x="240" y="110" class="tf" style="font-size:13px;">do</text>
+        <text data-px="0.3" x="340" y="118" class="tfd" style="font-size:10px;">beyond iconography</text>
+        <text data-px="-0.8" x="30"  y="156" class="tfl" style="font-size:12px;">what language</text>
+        <text data-px="1.1" x="240" y="146" class="tf" style="font-size:26px; font-style:italic;">cannot</text>
+        <text data-px="-0.5" x="84"  y="200" class="tf" style="font-size:11px;">the pictorial turn</text>
+        <text data-px="0.4" x="290" y="190" class="tfl" style="font-size:10px;">not just inert objects</text>
+        <text data-px="-1.0" x="12"  y="240" class="tfa" style="font-size:14px;">color fields</text>
+        <text data-px="0.7" x="190" y="232" class="tfd" style="font-size:10px;">texture</text>
+        <text data-px="-0.6" x="340" y="244" class="tf" style="font-size:12px;">absence</text>
+        <text data-px="0.5" x="56"  y="288" class="tfl" style="font-size:10px;">mark pressure</text>
+        <text data-px="-0.9" x="230" y="278" class="tf" style="font-size:18px; font-style:italic;">density</text>
+        <text data-px="0.6" x="380" y="294" class="tfd" style="font-size:11px;">scale</text>
+        <text data-px="-0.4" x="18"  y="338" class="tfd" style="font-size:10px;">nonverbal expression</text>
+        <text data-px="1.0" x="200" y="324" class="tfa" style="font-size:20px;">gesture</text>
+        <text data-px="-0.7" x="380" y="342" class="tf" style="font-size:11px;">touch</text>
+        <text data-px="0.5" x="50"  y="386" class="tfl" style="font-size:11px;">animated beings</text>
+        <text data-px="-0.5" x="240" y="378" class="tfd" style="font-size:10px;">with desires</text>
+        <text data-px="0.8" x="88"  y="432" class="tfd" style="font-size:10px;">art therapy bypasses</text>
+        <text data-px="-0.9" x="270" y="418" class="tfa" style="font-size:15px; font-style:italic;">language</text>
+        <text data-px="0.3" x="130" y="478" class="tf" style="font-size:11px; fill:#a89878;">and arrives somewhere else</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="prose-col">
+    <div class="marker">Form 05</div>
+    <div class="marker-label">The Scatter — and then the form could not hold</div>
+    <div class="prose">
+      <p>At some point the line broke.</p>
+      <p>This is what trauma looks like when it is remembered, if it is remembered. Not a story with a beginning and an end. <em>A scatter.</em> Pieces arriving at odd angles. A smell. A color. A doorway. The feeling of a hand on the back of your neck. None of it in order.</p>
+      <p>The theorist of pictures wrote: <em>images are not silent illustrations of what we already know how to say. Images think differently.</em> They arrive sideways. They carry meaning the way bodies carry weight — without explanation.</p>
+      <p>This is the answer, or part of an answer, to the question this project began with. What can images do that language cannot?</p>
+      <p class="emph">They can hold what does not fit into a sentence. They can show the shape of something without naming it. They can be a place where the unspeakable goes to live — not so that it disappears, but so that it has somewhere to be.</p>
+      <p>A child who cannot say what happened draws a circle. The circle is not a confession. It is a beginning.</p>
+    </div>
+    <div class="micro-cite">
+      <em>Mitchell, What Do Pictures Want?</em>, 2005<br>
+      <em>Malchiodi, Understanding Children's Drawings</em>, 1998<br>
+      <em>Eaton, Doherty & Widrick, Arts in Psychotherapy</em>, 2007
+    </div>
+  </div>
+</section>
+
+<!-- ============ CLOSING ============ -->
+<section id="closing">
+  <div>
+    <div class="eyebrow" style="margin-bottom: 56px;">Colophon — A note on form</div>
+    <div class="closing-prose">
+      <p>This handbook is not a diagnosis. It is not a catalog of what trauma looks like.</p>
+      <p>It is the brief — given to illustrators, designers, therapists, and anyone whose work is to find form for what does not have one yet.</p>
+      <p>The forms are not answers. They are questions, <em>held in shape.</em></p>
+    </div>
+    <div class="colophon">
+      <div>
+        Lucy &nbsp;·&nbsp; Final Research Project<br>
+        ARS: Visual Culture &nbsp;·&nbsp; 2026<br>
+        Research question explored through visual form
+      </div>
+      <div class="sig">Unspoken</div>
+    </div>
+  </div>
+</section>
+
+<script>
+// Scatter parallax — natural mouse-driven drift with inertia
+(function() {
+  const stage = document.getElementById('scatter-stage');
+  if (!stage) return;
+  const items = stage.querySelectorAll('#scatter-group text');
+  let targetX = 0, targetY = 0;
+  let currentX = 0, currentY = 0;
+
+  function onMove(e) {
+    const rect = stage.getBoundingClientRect();
+    if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    targetX = (e.clientX - cx) / rect.width;
+    targetY = (e.clientY - cy) / rect.height;
+  }
+
+  function tick() {
+    currentX += (targetX - currentX) * 0.06;
+    currentY += (targetY - currentY) * 0.06;
+    items.forEach(el => {
+      const p = parseFloat(el.dataset.px) || 0.5;
+      const dx = currentX * 18 * p;
+      const dy = currentY * 18 * p;
+      el.setAttribute('transform', `translate(${dx.toFixed(2)} ${dy.toFixed(2)})`);
+    });
+    requestAnimationFrame(tick);
+  }
+
+  window.addEventListener('mousemove', onMove, { passive: true });
+  requestAnimationFrame(tick);
+})();
+</script>
+
+</body>
+</html>
